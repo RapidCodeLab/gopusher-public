@@ -6,7 +6,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 # add you domains
-domains=(web.rapidcodelab.com events.rapidcodelab.com)
+domains=(web.yourdomain.com events.yourdomain.com)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="your@email.com" # Adding a valid address is strongly recommended
