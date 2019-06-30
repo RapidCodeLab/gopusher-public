@@ -1,0 +1,54 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - webapp
+      - eventsapp
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'" 
+  mongodb:
+    container_name: mongoddb
+    image: mongo:latest
+    volumes:
+      - './data/mongodb:/data/db'   
+  webapp: 
+    container_name: webapp
+    image: registry.gitlab.com/rapidcodelab/gopusher/web-app 
+    environment: 
+      LOGIN: demo  # select your login  
+      PASSWORD: demo   # select your password
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+    volumes:
+      - './data/images:/images'    
+    depends_on:
+      - mongodb  
+    links:
+      - mongodb    
+  eventsapp: 
+    container_name: eventsapp
+    image: registry.gitlab.com/rapidcodelab/gopusher/events-app  
+    environment: 
+      VAPID_PUBLIC_KEY: cvsdfj34985209384209834 # Enter your VAPID Public Key
+      VAPID_PRIVATE_KEY: jf30uf2908tr827f3874fu  # Enter your VAPID Private Key
+      SUBJECT_MAIL:  mailto:login@domain.com # Enter your VAPID Subject mail
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
