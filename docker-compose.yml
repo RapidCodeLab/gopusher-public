@@ -53,6 +53,7 @@ services:
       - mongodb
   senderapp:
     container_name: senderapp
+    image: registry.gitlab.com/rapidcodelab/gopusher/sender-app  
     environment:
       WORKERS_AMMOUNT: 500    
       LICENSE_KEY: #your license key
