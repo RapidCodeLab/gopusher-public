@@ -45,6 +45,17 @@ services:
     image: registry.gitlab.com/rapidcodelab/gopusher/events-app  
     environment: 
       LICENSE_KEY: #your license key
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+  senderapp:
+    container_name: senderapp
+    environment:
+      WORKERS_AMMOUNT: 500    
+      LICENSE_KEY: #your license key
       VAPID_PUBLIC_KEY: cvsdfj34985209384209834 # Enter your VAPID Public Key
       VAPID_PRIVATE_KEY: jf30uf2908tr827f3874fu  # Enter your VAPID Private Key
       SUBJECT_MAIL:  mailto:login@domain.com # Enter your VAPID Subject mail
@@ -53,4 +64,4 @@ services:
     depends_on:
       - mongodb
     links:
-      - mongodb
+      - mongodb  
