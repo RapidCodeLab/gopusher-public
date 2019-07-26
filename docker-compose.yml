@@ -63,6 +63,7 @@ services:
       SUBJECT_MAIL:  mailto:login@domain.com # Enter your VAPID Subject mail
       MONGO_HOST: mongodb
       MONGO_PORT: 27017
+      WEB_HOST: https://web.rapidcodelab.com/images/ #change to your webapp domain
     depends_on:
       - mongodb
     links:
