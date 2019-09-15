@@ -3,6 +3,7 @@ services:
   nginx:
     container_name: nginx
     image: nginx:1.15-alpine
+    restart: always 
     ports:
       - "80:80"
       - "443:443"
@@ -17,6 +18,7 @@ services:
   certbot:
     container_name: certbot
     image: certbot/certbot
+    restart: always 
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
@@ -24,11 +26,13 @@ services:
   mongodb:
     container_name: mongoddb
     image: mongo:latest
+    restart: always 
     volumes:
       - './data/mongodb:/data/db'   
   webapp: 
     container_name: webapp
     image: registry.gitlab.com/rapidcodelab/gopusher/web-app 
+    restart: always 
     environment: 
       LICENSE_KEY: #your license key
       LOGIN: demo  # select your login  
@@ -44,6 +48,7 @@ services:
   eventsapp: 
     container_name: eventsapp
     image: registry.gitlab.com/rapidcodelab/gopusher/events-app  
+    restart: always 
     environment: 
       LICENSE_KEY: #your license key
       MONGO_HOST: mongodb
@@ -54,7 +59,8 @@ services:
       - mongodb
   senderapp:
     container_name: senderapp
-    image: registry.gitlab.com/rapidcodelab/gopusher/sender-app  
+    image: registry.gitlab.com/rapidcodelab/gopusher/sender-app 
+    restart: always  
     environment:
       WORKERS_AMMOUNT: 500    
       LICENSE_KEY: #your license key
