@@ -3,6 +3,10 @@ services:
   nginx:
     container_name: nginx
     image: nginx:1.15-alpine
+    logging:
+      options:
+         max-size: "200k"
+         max-file: "10"
     restart: always 
     ports:
       - "80:80"
@@ -19,6 +23,10 @@ services:
   certbot:
     container_name: certbot
     image: certbot/certbot
+    logging:
+      options:
+         max-size: "200k"
+         max-file: "10"
     restart: always 
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
@@ -27,12 +35,20 @@ services:
   mongodb:
     container_name: mongoddb
     image: mongo:latest
+    logging:
+      options:
+         max-size: "200k"
+         max-file: "10"
     restart: always 
     volumes:
       - './data/mongodb:/data/db'   
   webapp: 
     container_name: webapp
     image: registry.gitlab.com/rapidcodelab/gopusher/web-app 
+    logging:
+      options:
+         max-size: "200k"
+         max-file: "10"
     restart: always 
     environment: 
       LICENSE_KEY: #your license key
@@ -49,6 +65,10 @@ services:
   eventsapp: 
     container_name: eventsapp
     image: registry.gitlab.com/rapidcodelab/gopusher/events-app  
+    logging:
+      options:
+         max-size: "200k"
+         max-file: "10"
     restart: always 
     environment: 
       LICENSE_KEY: #your license key
@@ -61,6 +81,10 @@ services:
   senderapp:
     container_name: senderapp
     image: registry.gitlab.com/rapidcodelab/gopusher/sender-app 
+    logging:
+      options:
+         max-size: "200k"
+         max-file: "10"
     restart: always  
     environment:
       WORKERS_AMMOUNT: 500    
@@ -78,7 +102,11 @@ services:
   # ##  Uncomment if you want to use publisjer api 
   # apiapp: 
   #   container_name: apiapp
-  #   image: registry.gitlab.com/rapidcodelab/gopusher/api-app 
+  #   image: registry.gitlab.com/rapidcodelab/gopusher/api-app
+  #   logging:
+  #     options:
+  #       max-size: "200k"
+  #       max-file: "10" 
   #   environment:
   #     MONGO_HOST: mongodb
   #     MONGO_PORT: 27017 
